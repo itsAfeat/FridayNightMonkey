@@ -14,14 +14,14 @@ var cam
 var rot_help
 var viewport
 
-var mouse_sen = 0.3
+var mouse_sen = 0.15
 
 
 func _ready():
 	cam      = $RotHelp/Camera
 	rot_help = $RotHelp
-	viewport = get_viewport().get_parent()
-	viewport.stretch_shrink = 3
+	#viewport = get_viewport().get_parent()
+	#viewport.stretch_shrink = 3
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 

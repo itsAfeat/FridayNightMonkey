@@ -1,12 +1,34 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scripts/SceneScripts/StartScript.gd" type="Script" id=1]
 [ext_resource path="res://Prefabs/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Shaders/Water/water.shader" type="Shader" id=3]
+
+[sub_resource type="ProceduralSky" id=3]
+
+[sub_resource type="Environment" id=4]
+background_mode = 3
+background_sky = SubResource( 3 )
+background_color = Color( 0.556863, 0.854902, 0.921569, 1 )
 
 [sub_resource type="BoxShape" id=2]
 extents = Vector3( 1, 2.07202, 1 )
 
 [sub_resource type="CubeMesh" id=1]
+
+[sub_resource type="ShaderMaterial" id=6]
+shader = ExtResource( 3 )
+shader_param/_WATER_COLOUR1 = Color( 0.04, 0.38, 0.88, 1 )
+shader_param/_WATER_COLOUR2 = Color( 0.04, 0.35, 0.78, 1 )
+shader_param/_FOAM_COLOUR = Color( 0.8125, 0.9609, 0.9648, 1 )
+shader_param/_DISTORTION_SPEED = 2.0
+shader_param/_HEIGHT = 2.0
+shader_param/_TILE = Vector2( 100, 100 )
+shader_param/_WAVE_SIZE = Vector2( 100, 100 )
+shader_param/_WAVE_SPEED = 5.0
+
+[sub_resource type="PlaneMesh" id=5]
+material = SubResource( 6 )
 
 [node name="Debug Scene" type="Spatial"]
 script = ExtResource( 1 )
@@ -23,12 +45,18 @@ __meta__ = {
 [node name="Viewport" type="Viewport" parent="ViewportContainer"]
 size = Vector2( 1280, 720 )
 size_override_stretch = true
+handle_input_locally = false
 render_direct_to_screen = true
+render_target_update_mode = 3
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="ViewportContainer/Viewport"]
+environment = SubResource( 4 )
 
 [node name="Player" parent="ViewportContainer/Viewport" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.40441, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.01522, 0 )
 
 [node name="tmpFloor" type="StaticBody" parent="ViewportContainer/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.84034, 0 )
 
 [node name="CollisionShape" type="CollisionShape" parent="ViewportContainer/Viewport/tmpFloor"]
 transform = Transform( 10, 0, 0, 0, 0.1, 0, 0, 0, 10, 0, 0, 0 )
@@ -37,4 +65,9 @@ shape = SubResource( 2 )
 [node name="MeshInstance" type="MeshInstance" parent="ViewportContainer/Viewport/tmpFloor"]
 transform = Transform( 10, 0, 0, 0, 0.1, 0, 0, 0, 10, 0, 0, 0 )
 mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Water" type="MeshInstance" parent="ViewportContainer/Viewport"]
+transform = Transform( 599, 0, 0, 0, 1, 0, 0, 0, 599, 0, 0, 0 )
+mesh = SubResource( 5 )
 material/0 = null

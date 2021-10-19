@@ -1,9 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scripts/PlayerScripts/PlayerMove.gd" type="Script" id=1]
+[ext_resource path="res://Shaders/Fog/fogMaterial.tres" type="Material" id=2]
 
 [sub_resource type="CapsuleShape" id=1]
 height = 1.83
+
+[sub_resource type="QuadMesh" id=2]
+material = ExtResource( 2 )
+size = Vector2( 2, 2 )
 
 [node name="Player" type="KinematicBody"]
 script = ExtResource( 1 )
@@ -16,3 +21,8 @@ shape = SubResource( 1 )
 
 [node name="Camera" type="Camera" parent="RotHelp"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03089, -0.707 )
+
+[node name="Fog" type="MeshInstance" parent="RotHelp/Camera"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
+mesh = SubResource( 2 )
+material/0 = null
