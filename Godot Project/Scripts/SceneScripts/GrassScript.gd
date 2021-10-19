@@ -7,10 +7,6 @@ export var radius := 12.0
 export var character_path: NodePath = "."
 
 
-#func _enter_tree():
-#	connect("visibility_changed", self, "_on_WindGrass_visibility_changed")
-
-
 func _ready() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.randomize()
@@ -44,3 +40,8 @@ func _on_WindGrass_visibility_changed():
 func _process(_delta):
 	material_override.set_shader_param(
 		"character_position", get_node(character_path).global_transform.origin)
+
+
+func _on_Grass_visibility_changed():
+	if visible:
+		_ready()
