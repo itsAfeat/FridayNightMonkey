@@ -14,7 +14,7 @@ var cam
 var rot_help
 var viewport
 
-var mouse_sen = 1
+var mouse_sen = 0.15
 
 var controller_connected = false
 
@@ -41,20 +41,16 @@ func process_input(_delta):
 	var cam_xform = cam.global_transform
 	var input_vector = Vector2()
 	
-	if not controller_connected:
-		if Input.is_key_pressed(KEY_W):
-			input_vector.y += 1
-		if Input.is_key_pressed(KEY_S):
-			input_vector.y -= 1
-		if Input.is_key_pressed(KEY_D):
-			input_vector.x += 1
-		if Input.is_key_pressed(KEY_A):
-			input_vector.x -= 1
-	else:
-		input_vector.y -= Input.get_joy_axis(0, 1)
-		input_vector.x += Input.get_joy_axis(0, 0)
+	if Input.is_action_pressed("ui_up"):
+		input_vector.y += 1
+	if Input.is_action_pressed("ui_down"):
+		input_vector.y -= 1
+	if Input.is_action_pressed("ui_right"):
+		input_vector.x += 1
+	if Input.is_action_pressed("ui_left"):
+		input_vector.x -= 1
 	
-	if Input.is_key_pressed(KEY_SHIFT) || Input.is_joy_button_pressed(0, JOY_L2):
+	if Input.is_action_pressed("ui_sprint"):
 		accel   = 4.5
 		max_spd = 10.4
 	else:
@@ -66,27 +62,12 @@ func process_input(_delta):
 	dir += cam_xform.basis.x * input_vector.x
 	
 	if is_on_floor():
-		if not controller_connected:
-			if Input.is_key_pressed(KEY_SPACE):
-				vel.y = jmp_spd
-		else:
-			if Input.is_joy_button_pressed(0, JOY_SONY_X):
-				vel.y = jmp_spd
+		if Input.is_action_just_pressed("ui_jump"):
+			vel.y = jmp_spd
 
-	if not controller_connected:
-		if Input.is_action_just_pressed("ui_cancel"):
-			if Input.get_mouse_mode() == Input.MOUSE_MODE_VISIBLE:
-				#Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-				get_tree().quit(0)
-			else:
-				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-	else:
+	if controller_connected:
 		if Input.is_joy_button_pressed(0, JOY_SELECT):
 			get_tree().quit(0)
-		if Input.is_joy_button_pressed(0, JOY_START):
-			get_tree().reload_current_scene()
-		if Input.is_action_just_pressed("ui_cancel"):
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
 func process_movement(delta):
@@ -115,8 +96,8 @@ func process_movement(delta):
 	var xAxis = Input.get_joy_axis(0, 3)
 	var yAxis = Input.get_joy_axis(0, 2)
 	
-	var xTurn = (1 + mouse_sen) * xAxis
-	var yTurn = (1 + mouse_sen) * yAxis
+	var xTurn = (2 + mouse_sen) * xAxis
+	var yTurn = (2 + mouse_sen) * yAxis
 	
 	rot_help.rotate_x(deg2rad(xTurn * -1))
 	self.rotate_y(deg2rad(yTurn * -1))

@@ -180,6 +180,7 @@ void vertex(){
     	sin(d1) * 0.15 + sin(d2) * 0.05,
     	cos(d1) * 0.15 + cos(d2) * 0.05
     );
+	
 	VERTEX.y += dist.y * _HEIGHT;
 }
 
