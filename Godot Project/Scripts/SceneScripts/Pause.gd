@@ -2,10 +2,10 @@ extends Control
 
 var controller_connected = false
 
-var continueCoords = Vector2(542.0, 261.0)
-var settingsCoords = Vector2(542.0, 321.0)
-var menuCoords = Vector2(542.0, 377.0)
-var quitCoords = Vector2(532.0, 439.0)
+var continueCoords = Vector2(870.0, 261.0)
+var settingsCoords = Vector2(870.0, 321.0)
+var menuCoords = Vector2(870.0, 377.0)
+var quitCoords = Vector2(860.0, 439.0)
 
 onready var doodleNode = get_node("DoodleCircle")
 
@@ -59,14 +59,18 @@ func _ready():
 	doodleNode.playing = true
 
 func _input(event):
-	if event == InputEventMouseMotion:
+	var event_class = event.get_class()
+	
+	if event_class == "InputEventMouseMotion" or event_class == "InputEventKey":
 		controller_connected = false
 		using_mouse = true
-	if event == InputEventJoypadMotion || event == InputEventJoypadButton:
+	elif event_class == "InputEventJoypadMotion" or event_class == "InputEventJoypadButton":
 		controller_connected = true
+		using_mouse = false
 		
 	var new_pause_state = not get_tree().paused
 	if event.is_action_pressed("ui_pause"):
+			selectedButton = 0
 			get_tree().paused = new_pause_state
 			visible = new_pause_state
 	
@@ -89,7 +93,7 @@ func _process(_delta):
 					selectedButton = len(buttons)-1
 				else:
 					selectedButton -= 1
-			if Input.is_action_just_pressed("ui_accept"):				
+			if Input.is_action_just_pressed("ui_accept"):
 				var btn = buttons[selectedButton]
 				
 				if btn == continueButton:
