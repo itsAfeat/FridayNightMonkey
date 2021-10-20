@@ -1,12 +1,12 @@
 extends RigidBody
 
-onready var shipNode = get_child(0)
-onready var waterNode = get_parent().get_node("Wasser")
-
-var mdt = MeshDataTool.new()
+onready var ray = get_node("RayCast")
 
 func _ready():
-	mdt.create_from_surface(waterNode.mesh, 0)
-	for vtx in range(mdt.get_vertex_count()):
-		var vert = mdt.get_vertex(vtx)
-		print("Vertex" + str(waterNode.global_transform.xform(vert)))
+	ray.enabled = true
+	set_process(true)
+
+func _process(_delta):
+	if ray.is_colliding():
+		var body = ray.get_collider()
+		print(body.get_name())

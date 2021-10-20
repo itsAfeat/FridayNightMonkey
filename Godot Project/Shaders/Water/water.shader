@@ -187,6 +187,5 @@ void vertex(){
 void fragment()
 {
 	vec2 uv = UV;
-	
-    ALBEDO = vec3(water(uv * _TILE, vec3(0,1,0), TIME * _DISTORTION_SPEED));
+	ALBEDO = vec3(water(uv * _TILE, vec3(0,1,0), TIME * _DISTORTION_SPEED));
 }
