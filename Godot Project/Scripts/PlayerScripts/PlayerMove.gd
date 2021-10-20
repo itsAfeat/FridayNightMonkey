@@ -36,18 +36,22 @@ func _physics_process(delta):
 
 
 func process_input(_delta):
+	if Input.is_key_pressed(KEY_E):
+		var statsScript = get_parent().get_node("CanvasLayer/PlayerStats")
+		statsScript.take_damage()
+	
 	dir = Vector3.ZERO
 	
 	var cam_xform = cam.global_transform
 	var input_vector = Vector2()
 	
-	if Input.is_action_pressed("ui_up"):
+	if Input.is_action_pressed("ui_forwards"):
 		input_vector.y += 1
-	if Input.is_action_pressed("ui_down"):
+	if Input.is_action_pressed("ui_backwards"):
 		input_vector.y -= 1
-	if Input.is_action_pressed("ui_right"):
+	if Input.is_action_pressed("ui_strafe_right"):
 		input_vector.x += 1
-	if Input.is_action_pressed("ui_left"):
+	if Input.is_action_pressed("ui_strafe_left"):
 		input_vector.x -= 1
 	
 	if Input.is_action_pressed("ui_sprint"):
@@ -64,10 +68,6 @@ func process_input(_delta):
 	if is_on_floor():
 		if Input.is_action_just_pressed("ui_jump"):
 			vel.y = jmp_spd
-
-	if controller_connected:
-		if Input.is_joy_button_pressed(0, JOY_SELECT):
-			get_tree().quit(0)
 
 
 func process_movement(delta):
@@ -108,6 +108,11 @@ func process_movement(delta):
 
 
 func _input(event):
+	if event is InputEventMouseMotion:
+		controller_connected = false
+	if event is InputEventJoypadMotion:
+		controller_connected = true
+	
 	if not controller_connected:
 		if event is InputEventMouseMotion and Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED:
 			rot_help.rotate_x(deg2rad(event.relative.y * mouse_sen * -1))
