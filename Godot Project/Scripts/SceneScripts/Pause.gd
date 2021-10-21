@@ -8,6 +8,7 @@ var menuCoords = Vector2(870.0, 377.0)
 var quitCoords = Vector2(860.0, 439.0)
 
 onready var doodleNode = get_node("DoodleCircle")
+onready var weaponNode = get_parent().get_node("PlayerStats/Weapon")
 
 onready var continueButton = get_node("ContinueButton")
 onready var settingsButton = get_node("SettingsButton")
@@ -73,6 +74,7 @@ func _input(event):
 			selectedButton = 0
 			get_tree().paused = new_pause_state
 			visible = new_pause_state
+			weaponNode.visible = not new_pause_state
 	
 func _process(_delta):
 	if using_mouse:
@@ -154,6 +156,7 @@ func continue_clicked():
 	var new_pause_state = not get_tree().paused
 	get_tree().paused = new_pause_state
 	visible = new_pause_state
+	weaponNode.visible = not new_pause_state
 	
 func settins_clicked():
 	pass

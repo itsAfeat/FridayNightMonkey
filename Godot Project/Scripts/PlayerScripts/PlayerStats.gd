@@ -13,7 +13,7 @@ var hurt_imgs = [ hurt1_img,
 
 onready var healthNode = get_node("Health")
 onready var hurtNode = get_node("HurtImg")
-onready var timer = get_parent().get_parent().get_node("Timer")
+onready var timer = get_parent().get_parent().get_node("HealthTimer")
 
 var timerStarted = false
 

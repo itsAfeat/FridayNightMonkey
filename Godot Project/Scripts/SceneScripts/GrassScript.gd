@@ -13,7 +13,7 @@ func _ready() -> void:
 
 	var theta := 0
 	var increase := 1
-	var center: Vector3 = get_parent().global_transform.origin
+	var center: Vector3 = get_parent().get_parent().get_node("Viewport/Player").global_transform.origin
 
 	for i in multimesh.instance_count:
 		var transform := Transform().rotated(Vector3.UP, rng.randf_range(-PI / 2, PI / 2))

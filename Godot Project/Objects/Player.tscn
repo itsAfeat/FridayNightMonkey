@@ -24,5 +24,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.03089, -0.707 )
 
 [node name="Fog" type="MeshInstance" parent="RotHelp/Camera"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.1 )
+visible = false
 mesh = SubResource( 2 )
 material/0 = null
