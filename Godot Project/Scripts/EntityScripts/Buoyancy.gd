@@ -3,46 +3,42 @@ extends RigidBody
 onready var water_node = get_parent().get_node("Wasser")
 onready var water_mat  = water_node.mesh.surface_get_material(0)
 
-var time = 10.0
+var time = 0.0
 
 var _WAVE_SPEED = 0
 var _WAVE_SIZE  = 0
 var _HEIGHT     = 0
 
 func _ready():
-	_WAVE_SPEED = water_mat.get_shader_param("_WAVE_SPEED")
-	_WAVE_SIZE = water_mat.get_shader_param("_WAVE_SIZE")
-	_HEIGHT = water_mat.get_shader_param("_HEIGHT")
-	
+	#_WAVE_SPEED = water_mat.get_shader_param("_WAVE_SPEED")
 	set_process(true)
 
 
-func calculate_height(x, y):
-	var _t = time * _WAVE_SPEED
-	var uv = Vector2(x, y) * _WAVE_SIZE
-	
-	var d1 = fmod(uv.x + uv.y, 2.0*PI)
-	var d2 = fmod((uv.x + uv.y + 0.25) * 1.3, 6.0*PI)
-	
-	d1 = _t * 0.07 + d1;
-	d2 = _t * 0.5 + d2;
-	
-	var dist = Vector2(
-		sin(d1) * 0.15 + sin(d2) * 0.05,
-		cos(d1) * 0.15 + cos(d2) * 0.05
-	)
-	
-	return dist.y * _HEIGHT
+func wave(phase : float, speed : float, amplitude : float) -> float:
+	return sin(time * speed + phase) * amplitude;
+
+
+func get_height(position : Vector2) -> float:
+	var wave_size = water_mat.get_shader_param("_WAVE_SIZE")
+	var x = position.x * wave_size.x
+	var y = position.y * wave_size.y
+	# Angle each wave differently for interesting interactions
+	var w1 = x + y * .1
+	var w2 = x + y * .2
+	var w3 = x + y
+	# Use speeds and amplitudes which aren't easily refactorable
+	var dist = wave(w1, .32, .40) + wave(w2, 0.5, 0.33) + wave(w3, .43, .27)
+	return dist * water_mat.get_shader_param("_HEIGHT")
+
+
+func apply_buoyancy(point : Vector3) -> void:
+	var depth = get_height(Vector2(point.x, point.z)) - point.y
+	if depth > 0:
+		add_force(Vector3.UP * depth, point - self.transform.origin)
 
 
 func _process(delta):
 	time += delta
 	water_mat.set_shader_param("_TIME", time)
 	
-	#var x = self.translation.x
-	#var y = self.translation.y
-	#var z = self.translation.z
-	
-	#y += calculate_height(x, y)
-	#var target_pos = Vector3(x, y, z)
-	#self.global_transform.origin = target_pos
+	apply_buoyancy(self.transform.origin)

@@ -13,6 +13,8 @@ uniform float _WAVE_SPEED = 1.5;
 
 const float PI = 3.14159265359;
 
+uniform float _TIME = 0.0;
+
 float random(vec2 uv) {
 	return fract(sin(dot(uv.xy, vec2(12.9898,78.233))) * 43758.5453123);
 }
@@ -167,20 +169,20 @@ vec3 water(vec2 uv, vec3 cdir, float iTime)
     return ret;
 }
 
+float wave(float phase, float speed, float amplitude){
+    return sin(_TIME * speed + phase) * amplitude;
+}
 
 void vertex(){
-	float time = TIME * _WAVE_SPEED;
-	vec2 uv = UV * _WAVE_SIZE;
-	float d1 = mod(uv.x + uv.y, 2.0*PI);
-    float d2 = mod((uv.x + uv.y + 0.25) * 1.3, 6.0*PI);
-    d1 = time * 0.07 + d1;
-    d2 = time * 0.5 + d2;
-    vec2 dist = vec2(
-    	sin(d1) * 0.15 + sin(d2) * 0.05,
-    	cos(d1) * 0.15 + cos(d2) * 0.05
-    );
-	
-	VERTEX.y += dist.y * _HEIGHT;
+    // Get global coordinates
+    UV = (WORLD_MATRIX * vec4(VERTEX, 1.0)).xz * _WAVE_SIZE;
+    // Angle each wave differently for interesting interactions
+    float w1 = UV.x + UV.y * .1;
+    float w2 = UV.x + UV.y * .2;
+    float w3 = UV.x + UV.y;
+    // Use speeds and amplitudes which aren't easily refactorable
+    float dist = wave(w1, .32, .40) + wave(w2, 0.5, 0.33) + wave(w3, .43, .27);
+    VERTEX.y = dist * _HEIGHT;
 }
 
 void fragment()
