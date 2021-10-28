@@ -9,7 +9,6 @@ uniform float _HEIGHT = 2.0;
 
 uniform vec2 _TILE = vec2(5.0, 5.0);
 uniform vec2 _WAVE_SIZE = vec2(2.0, 2.0);
-uniform float _WAVE_SPEED = 1.5;
 
 const float PI = 3.14159265359;
 

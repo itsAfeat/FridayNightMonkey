@@ -3,7 +3,7 @@
 [ext_resource path="res://Objects/tmpSkiv.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Shaders/Water/water.shader" type="Shader" id=2]
 
-[sub_resource type="ShaderMaterial" id=3]
+[sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
 shader_param/_WATER_COLOUR1 = Color( 0.04, 0.38, 0.88, 1 )
 shader_param/_WATER_COLOUR2 = Color( 0.04, 0.35, 0.78, 1 )
@@ -12,11 +12,10 @@ shader_param/_DISTORTION_SPEED = 2.0
 shader_param/_HEIGHT = 0.5
 shader_param/_TILE = Vector2( 1, 1 )
 shader_param/_WAVE_SIZE = Vector2( 0.5, 0.5 )
-shader_param/_WAVE_SPEED = 1.5
 shader_param/_TIME = 0.0
 
-[sub_resource type="PlaneMesh" id=4]
-material = SubResource( 3 )
+[sub_resource type="PlaneMesh" id=2]
+material = SubResource( 1 )
 subdivide_width = 256
 subdivide_depth = 256
 
@@ -29,7 +28,7 @@ transform = Transform( 1, 0, 0, 0, 0.940922, 0.338623, 0, -0.338623, 0.940922, 0
 
 [node name="Wasser" type="MeshInstance" parent="."]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
-mesh = SubResource( 4 )
+mesh = SubResource( 2 )
 material/0 = null
 __meta__ = {
 "_edit_lock_": true

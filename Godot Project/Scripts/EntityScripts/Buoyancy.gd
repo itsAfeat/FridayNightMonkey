@@ -1,11 +1,12 @@
 extends Spatial
 
-onready var water_node = get_parent().get_parent().get_node("Water")
+onready var water_node = get_tree().get_nodes_in_group("Water")[0]
 onready var water_mat  = water_node.mesh.surface_get_material(0)
-onready var ship_node = get_parent()
+onready var ship_node = get_parent().get_parent()
 
 var time = 0.0
 var submerged_depth = 0.0
+var floater_count = 6
 
 var _WAVE_SIZE  = 0
 var _HEIGHT     = 0
@@ -35,7 +36,7 @@ func apply_buoyancy(point : Vector3) -> void:
 	var depth = get_height(Vector2(point.x, point.z)) - point.y
 	if depth > submerged_depth:
 		ship_node.add_central_force(Vector3(0, depth, 0))
-		ship_node.add_force(Vector3(0, depth/4, 0), self.transform.origin)
+		ship_node.add_force(Vector3(0, depth/100, 0), self.global_transform.origin)
 
 
 func _process(delta) -> void:
