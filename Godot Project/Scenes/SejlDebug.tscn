@@ -25,8 +25,11 @@ subdivide_depth = 256
 transform = Transform( 1, 0, 0, 0, 0.940922, 0.338623, 0, -0.338623, 0.940922, 0, 3.85028, 8.5 )
 
 [node name="Skiv" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.622394, 0 )
 
-[node name="Wasser" type="MeshInstance" parent="."]
+[node name="Wasser" type="MeshInstance" parent="." groups=[
+"Water",
+]]
 transform = Transform( 10, 0, 0, 0, 1, 0, 0, 0, 10, 0, 0, 0 )
 mesh = SubResource( 2 )
 material/0 = null

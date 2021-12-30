@@ -3,7 +3,6 @@
 [ext_resource path="res://Objects/Skiv.tscn" type="PackedScene" id=1]
 
 [node name="Skiv" type="RigidBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0 )
 mass = 0.45
 linear_damp = 4.0
 angular_damp = 4.0

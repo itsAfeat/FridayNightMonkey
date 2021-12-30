@@ -12,6 +12,8 @@ var _WAVE_SIZE  = 0
 var _HEIGHT     = 0
 
 func _ready() -> void:
+	print("WATER >>> ", water_node.name)
+	print("SHIP >>> ", ship_node.name)
 	set_process(true)
 
 
